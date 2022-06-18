@@ -1,0 +1,28 @@
+name: Check Linting
+on: [push, workflow_dispatch]
+
+jobs:
+  check-linting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Use yarn cache keyed by hashed yarn.lock
+        uses: actions/cache@v2
+        with:
+          path: ~/.yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install workspace dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Check Linting
+        run: yarn eslint:check

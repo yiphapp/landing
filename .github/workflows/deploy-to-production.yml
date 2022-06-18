@@ -1,0 +1,17 @@
+name: Deploy to Production
+on:
+  workflow_dispatch:
+    inputs:
+      commit-hash:
+        description: Commit hash
+        required: true
+
+jobs:
+  deploy-to-production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.commit-hash || github.sha }}
+
+      # TODO: Deployment
