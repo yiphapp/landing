@@ -42,7 +42,10 @@ jobs:
         if: ${{ steps.release.outputs.release_created }}
 
       - name: Build app
-        run: yarn build
+        run: npx vercel build --prod
+        env:
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         if: ${{ steps.release.outputs.release_created }}
 
       - name: Deploy to Vercel
