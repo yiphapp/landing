@@ -30,6 +30,21 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
+          scope: yiphapp
+
+      - name: Use yarn cache keyed by hashed yarn.lock
+        uses: actions/cache@v2
+        with:
+          path: ~/.yarn
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build app
+        run: yarn build
 
       - name: Update deployment status
         uses: bobheadxi/deployments@v0.4.3
