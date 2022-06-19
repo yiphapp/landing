@@ -1,5 +1,6 @@
 .husky
 .next
 node_modules
-dist
 *.lock
+.github
+CHANGELOG.md
