@@ -26,13 +26,19 @@ jobs:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: production
-        if: ${{ steps.release.outputs.release_created }}
 
-      # TODO: Deploy to production
+      - name: Deploy to Vercel
+        uses: amondnet/vercel-action@v25.0.0
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-args: '--prod'
 
       - name: Update deployment status
         uses: bobheadxi/deployments@v0.4.3
-        if: ${{ always() && steps.release.outputs.release_created }}
+        if: always()
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
