@@ -53,6 +53,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           alias-domains: staging.yiph.app
+          vercel-args: '--prebuilt'
           scope: yiphapp
 
       - name: Update deployment status
