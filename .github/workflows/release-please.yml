@@ -26,6 +26,7 @@ jobs:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: production
+        if: ${{ steps.release.outputs.release_created }}
 
       - name: Deploy to Vercel
         uses: amondnet/vercel-action@v25.0.0
@@ -35,13 +36,14 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-args: '--prod'
+        if: ${{ steps.release.outputs.release_created }}
 
       - name: Update deployment status
         uses: bobheadxi/deployments@v0.4.3
-        if: always()
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
           env_url: https://yiph.app/
+        if: ${{ steps.release.outputs.release_created }}
