@@ -36,10 +36,13 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Pull Vercel settings
+        run: npx vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build app
         run: npx vercel build
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
 
       - name: Deploy to Vercel

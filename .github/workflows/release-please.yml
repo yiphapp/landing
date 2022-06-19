@@ -41,10 +41,13 @@ jobs:
         run: yarn install --frozen-lockfile
         if: ${{ steps.release.outputs.release_created }}
 
+      - name: Pull Vercel settings
+        run: npx vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+
       - name: Build app
         run: npx vercel build --prod
         env:
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_NEXTJS }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
         if: ${{ steps.release.outputs.release_created }}
 
